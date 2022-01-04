@@ -1,13 +1,14 @@
 /**
- * @version 1
+ * @version 1.1
  */
 export const random = {
-    randInt: function(min, max) {
+    randInt(min, max) {
         if (typeof min != 'undefined' && typeof min != 'number') {
-            throw new TypeError(`Expected integer; received ${typeof min}: ${min}`);
+            throw new TypeError(`Expected integer. Received ${typeof min}: ${min}`);
         } else if (typeof max != 'undefined' && typeof max != 'number') {
-            throw new TypeError(`Expected integer; received ${typeof max}: ${max}`);
+            throw new TypeError(`Expected integer. Received ${typeof max}: ${max}`);
         }
+
         if (arguments.length == 1) {
             max = min;
             min = 0;
@@ -15,31 +16,32 @@ export const random = {
             max = 1;
             min = 0;
         }
+
         return Math.floor(Math.random() * (max - min + 1)) + min;        
     },
-    randBool: function(minPass) {
+    randBool(minPass) {
         if (typeof minPass != 'number' && typeof minPass != 'undefined') {
-            throw new TypeError(`Expected integer; received ${typeof minPass}: ${minPass}`);
+            throw new TypeError(`Expected integer. Received ${typeof minPass}: ${minPass}`);
         }
-        minPass = (typeof minPass == 'undefined') ? 0.5000 : minPass.toPrecision(5);
-        let returnVal = (Math.random().toPrecision(5) >= minPass) ? true : false;
-        return returnVal;
+    
+        minPass = typeof minPass == 'undefined' ? 0.5 : parseFloat(minPass.toFixed(4));
+        
+        return parseFloat(Math.random().toFixed(4)) > minPass ? true : false;
     },
     randIndexOfArray: function(arr) {
-        if (!Array.isArray(arr) || arguments.length != 1) {
-            throw new TypeError(`Expected array or string; received ${typeof arr}: ${arr}`);
+        if ((!Array.isArray(arr) && typeof arr != 'string') || arguments.length != 1) {
+            throw new TypeError(`Expected array or string. Received ${typeof arr}: ${arr}`);
         }
+
         return Math.floor(Math.random() * ((arr.length - 1) + 1));
     },
-    randLetter: function(toCaps) {
-        if ((!Array.isArray(arr) && typeof arr != 'string') || arguments.length != 1) {
-            throw new TypeError(`Expected boolean; received ${typeof toCaps}: ${toCaps}`)
+    randLetter(toCaps) {
+        if (typeof toCaps != 'boolean' && typeof toCaps != 'undefined') {
+            throw new TypeError(`Expected boolean. Received ${typeof toCaps}: ${toCaps}`)
         }
-        const letters = "abcdefghijklmnopqrstuvwxyz";
-        let returnVal = letters[this.randIndexOfArray(letters)];
-        if (toCaps == true) {
-            returnVal = (this.randBool()) ? letters[this.randIndexOfArray(letters)].toUpperCase() : letters[this.randIndexOfArray(letters)];
-        }
-        return returnVal;
+
+        const letters = "abcdefghijklmnopqrstuvwxyz";        
+
+        return (toCaps) ? letters[Math.floor(Math.random() * ((letters.length - 1) + 1))].toUpperCase() : letters[Math.floor(Math.random() * ((letters.length - 1) + 1))];
     },
 };
