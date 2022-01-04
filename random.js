@@ -1,5 +1,5 @@
 /**
- * @version 1
+ * @version 1.1
  */
 export const random = {
     /**
@@ -12,11 +12,11 @@ export const random = {
      * @returns {number} Returns the random number
      * @throws {TypeError} If the args are not valid ie not a number it will throw them.
      */
-    randInt: function(min, max) {
+    randInt(min, max) {
         if (typeof min != 'undefined' && typeof min != 'number') {
-            throw new TypeError(`Expected integer; received ${typeof min}: ${min}`);
+            throw new TypeError(`Expected integer. Received ${typeof min}: ${min}`);
         } else if (typeof max != 'undefined' && typeof max != 'number') {
-            throw new TypeError(`Expected integer; received ${typeof max}: ${max}`);
+            throw new TypeError(`Expected integer. Received ${typeof max}: ${max}`);
         }
 
         if (arguments.length == 1) {
@@ -39,53 +39,48 @@ export const random = {
      * @returns {boolean} Returns either true or false.
      * @throws {TypeError} If the value of the argument this method is called with is not either a number or undefined it will throw it.
      */
-    randBool: function(minPass) {
+    randBool(minPass) {
         if (typeof minPass != 'number' && typeof minPass != 'undefined') {
-            throw new TypeError(`Expected integer; received ${typeof minPass}: ${minPass}`);
+            throw new TypeError(`Expected integer. Received ${typeof minPass}: ${minPass}`);
         }
-
-        minPass = (typeof minPass == 'undefined') ? 0.5000 : minPass.toPrecision(5);
-
-        let returnVal = (Math.random().toPrecision(5) > minPass) ? true : false;
-        return returnVal;
+    
+        minPass = typeof minPass == 'undefined' ? 0.5 : parseFloat(minPass.toFixed(4));
+        
+        return parseFloat(Math.random().toFixed(4)) > minPass ? true : false;
     },
 
     /**
-     * This method will random pick an index from the array called as an
+     * This method will random pick an index from an array or string called as an
      * argument.
      * 
-     * @param {Array} arr 
-     * @returns {number} Returns a random number between 0 and the max index.
+     * @param {Array} arr You must pass this method either a string or array.
+     * @returns {number} Returns a random number between 0 and the max index
+     * of the passed string/array.
      * @throws {TypeError} If the argument is not an array then it throws it.
      */
     randIndexOfArray: function(arr) {
         if ((!Array.isArray(arr) && typeof arr != 'string') || arguments.length != 1) {
-            throw new TypeError(`Expected array or string; received ${typeof arr}: ${arr}`);
+            throw new TypeError(`Expected array or string. Received ${typeof arr}: ${arr}`);
         }
 
         return Math.floor(Math.random() * ((arr.length - 1) + 1));
     },
 
     /**
-     * This method will return a random letter from a-z with random
+     * This method will return a random letter from a-z with
      * capitilization if specified.
      * 
-     * @param {boolean} toCaps Determines if the method randomly capitilize the letter.
+     * @param {boolean} toCaps Determines if the method should capitilize the letter.
      * @returns {string} Returns random letter from a-z either capitilized or not.
      * @throws {TypeError} If the argument is not a boolean it throws it.
      */
-    randLetter: function(toCaps) {
+    randLetter(toCaps) {
         if (typeof toCaps != 'boolean' && typeof toCaps != 'undefined') {
-            throw new TypeError(`Expected boolean; received ${typeof toCaps}: ${toCaps}`)
+            throw new TypeError(`Expected boolean. Received ${typeof toCaps}: ${toCaps}`)
         }
 
-        const letters = "abcdefghijklmnopqrstuvwxyz";
-        let returnVal = letters[this.randIndexOfArray(letters)];
+        const letters = "abcdefghijklmnopqrstuvwxyz";        
 
-        if (toCaps == true) {
-            returnVal = (this.randBool()) ? letters[this.randIndexOfArray(letters)].toUpperCase() : letters[this.randIndexOfArray(letters)];
-        }
-
-        return returnVal;
+        return (toCaps) ? letters[Math.floor(Math.random() * ((letters.length - 1) + 1))].toUpperCase() : letters[Math.floor(Math.random() * ((letters.length - 1) + 1))];
     },
 };
