@@ -1,4 +1,4 @@
-/* random.js version 1.2 https://github.com/Carson-Fletcher/Random.js/README */
+/* random.js version 1.2 https://github.com/Carson-Fletcher/Random.js */
 const random = {
     randInt(min, max) {
         if (arguments.length == 1) {
